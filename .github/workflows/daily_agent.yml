@@ -1,6 +1,10 @@
-# DRAFT — daily autonomous session. CLI invocation must be validated against the
-# real agent CLI before enabling; flags below are placeholders. Start with
-# workflow_dispatch-only (manual) until 2 weeks of stable runs, then enable cron.
+# Daily autonomous session, driven by the Mistral "vibe" coding CLI
+# (PyPI: mistral-vibe, https://github.com/mistralai/mistral-vibe).
+#
+# Rollout: workflow_dispatch-only (manual) until runs are stable, then enable
+# the commented-out cron schedule below.
+#
+# Requires repository secret AGENT_API_KEY (Mistral API key, console.mistral.ai).
 
 name: Daily AI Dev Session
 
@@ -26,25 +30,48 @@ jobs:
         with: { fetch-depth: 0 }
 
       - uses: actions/setup-python@v5
-        with: { python-version: "3.11" }
+        with: { python-version: "3.12" }
+
+      - name: Install vibe CLI (validated recipe)
+        run: |
+          python -m pip install --disable-pip-version-check \
+            "mistral-vibe==2.9.4" "mcp>=1.14.0,<2.0"
+          vibe --version
 
       - name: Run agent session
         env:
-          AGENT_API_KEY: ${{ secrets.AGENT_API_KEY }}
+          MISTRAL_API_KEY: ${{ secrets.AGENT_API_KEY }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "TODO: replace with real agent CLI invocation (validated locally first)"
-          # agent runs PROMPT.md against this workspace, one micro-task, hard caps
+          vibe -p "Execute one session per AGENTS.md and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Do not touch ROADMAP.md." \
+            --max-turns 60 \
+            --max-price 3.00 \
+            --trust \
+            --output text \
+            --workdir .
 
       - name: Validate session report + blog post
+        if: always()
         run: |
+          [ -f temp/session_report.json ] || { echo "No session report; agent produced nothing."; exit 1; }
           python scripts/validate_post.py
-          # fails => no PR, no publish
 
       - name: Open session PR
+        if: always()
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          [ -f temp/session_report.json ] || { echo "No session report; skipping PR."; exit 0; }
           BR="session/$(date +%Y-%m-%d)-$(python -c 'import json;print(json.load(open("STATE.json"))["active_task_id"])')"
-          git checkout -b "$BR"
+          git checkout -b "$BR" 2>/dev/null || git checkout "$BR"
           git add -A
-          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" commit -m "session: $(date +%F)" || exit 0
+          if git diff --cached --quiet; then
+            echo "No changes produced; skipping PR."
+            exit 0
+          fi
+          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" \
+            commit -m "session: $(date +%F)"
           git push origin "$BR"
-          # then open PR via gh CLI or API (least-privilege token; never push to main)
+          gh pr create --draft --title "Session $(date +%F)" \
+            --body "Automated session run via daily_agent.yml. CI is the publish gate." \
+            --head "$BR"
