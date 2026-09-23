@@ -29,6 +29,9 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.12" }
 
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+
       - name: Install vibe CLI (validated recipe)
         run: |
           python -m pip install --disable-pip-version-check \
@@ -52,28 +55,69 @@ jobs:
             --output text \
             --workdir .
 
-      - name: Validate session report + blog post
+      - name: Discover pushed session branch
+        id: session
         if: always()
         run: |
-          [ -f temp/session_report.json ] || { echo "No session report; agent produced nothing."; exit 1; }
+          git fetch --prune origin
+          CUTOFF=$(( $(date +%s) - 2700 ))
+          BR=$(git for-each-ref --sort=-committerdate \r
+                --format='%(refname:short) %(committerdate:unix)' \r
+                refs/remotes/origin/session/ \r
+                | awk -v c="$CUTOFF" '$2 > c {print $1; exit}')
+          if [ -n "$BR" ]; then
+            echo "Agent pushed session branch: $BR"
+            echo "branch=$BR" >> "$GITHUB_OUTPUT"
+          else
+            echo "No fresh session branch pushed; validating the workspace instead."
+          fi
+
+      - name: Publish gate (post + report + engine tests + blog build)
+        if: always()
+        run: |
+          BR="${{ steps.session.outputs.branch }}"
+          if [ -n "$BR" ]; then
+            git worktree add "$RUNNER_TEMP/session-branch" "$BR"
+            cd "$RUNNER_TEMP/session-branch"
+          elif [ -z "$(git status --porcelain)" ]; then
+            echo "Agent pushed no branch and the workspace is clean; nothing was produced."
+            exit 1
+          fi
+          [ -f temp/session_report.json ] || { echo "No session report in the session content; agent produced nothing."; exit 1; }
           python scripts/validate_post.py
+          python -m pip install -e "engine[dev]"
+          (cd engine && pytest -q)
+          (cd blog && npm ci --no-audit --no-fund && npm run build)
 
       - name: Open session PR
         if: always()
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          BR="${{ steps.session.outputs.branch }}"
+          if [ -n "$BR" ]; then
+            BR_NAME="${BR#origin/}"
+            if [ -n "$(gh pr list --head "$BR_NAME" --state open)" ]; then
+              echo "PR already open for $BR_NAME; nothing to do."
+              exit 0
+            fi
+            gh pr create --draft --title "Session $(date +%F)" \r
+              --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \r
+              --head "$BR_NAME"
+            exit 0
+          fi
+          # Fallback: the agent left work uncommitted in the workspace.
           [ -f temp/session_report.json ] || { echo "No session report; skipping PR."; exit 0; }
-          BR="session/$(date +%Y-%m-%d)-$(python -c 'import json;print(json.load(open("STATE.json"))["active_task_id"])')"
-          git checkout -b "$BR" 2>/dev/null || git checkout "$BR"
+          BR_NAME="session/$(date +%Y-%m-%d)-$(python -c 'import json;print(json.load(open("STATE.json"))["active_task_id"])')"
+          git checkout -b "$BR_NAME" 2>/dev/null || git checkout "$BR_NAME"
           git add -A
           if git diff --cached --quiet; then
             echo "No changes produced; skipping PR."
             exit 0
           fi
-          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" \
+          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" \r
             commit -m "session: $(date +%F)"
-          git push origin "$BR"
-          gh pr create --draft --title "Session $(date +%F)" \
-            --body "Automated session run via daily_agent.yml. CI is the publish gate." \
-            --head "$BR"
+          git push origin "$BR_NAME"
+          gh pr create --draft --title "Session $(date +%F)" \r
+              --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \r
+              --head "$BR_NAME"
