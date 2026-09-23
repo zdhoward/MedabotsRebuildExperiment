@@ -35,7 +35,7 @@ jobs:
       - name: Install
         run: npm ci
         working-directory: blog
-      - name: Build blog (publish gate: content schema + static build)
+      - name: Build blog (publish gate — content schema + static build)
         run: npm run build
         working-directory: blog
 
