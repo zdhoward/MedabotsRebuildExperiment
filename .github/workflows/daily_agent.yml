@@ -1,0 +1,50 @@
+# DRAFT — daily autonomous session. CLI invocation must be validated against the
+# real agent CLI before enabling; flags below are placeholders. Start with
+# workflow_dispatch-only (manual) until 2 weeks of stable runs, then enable cron.
+
+name: Daily AI Dev Session
+
+on:
+  workflow_dispatch:
+  # schedule:
+  #   - cron: "0 14 * * *"   # 10:00 AM America/Toronto
+
+concurrency:
+  group: daily-agent
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  session:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+
+      - name: Run agent session
+        env:
+          AGENT_API_KEY: ${{ secrets.AGENT_API_KEY }}
+        run: |
+          echo "TODO: replace with real agent CLI invocation (validated locally first)"
+          # agent runs PROMPT.md against this workspace, one micro-task, hard caps
+
+      - name: Validate session report + blog post
+        run: |
+          python scripts/validate_post.py
+          # fails => no PR, no publish
+
+      - name: Open session PR
+        run: |
+          BR="session/$(date +%Y-%m-%d)-$(python -c 'import json;print(json.load(open("STATE.json"))["active_task_id"])')"
+          git checkout -b "$BR"
+          git add -A
+          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" commit -m "session: $(date +%F)" || exit 0
+          git push origin "$BR"
+          # then open PR via gh CLI or API (least-privilege token; never push to main)

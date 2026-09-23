@@ -1,0 +1,9 @@
+{
+  "current_phase": 0,
+  "active_task_id": "T0.1",
+  "last_run_status": null,
+  "last_post_archetype": null,
+  "consecutive_failures": 0,
+  "completed_tasks": [],
+  "schema_version": 1
+}
