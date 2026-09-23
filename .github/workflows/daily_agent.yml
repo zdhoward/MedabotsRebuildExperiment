@@ -52,8 +52,8 @@ jobs:
           MISTRAL_API_KEY: ${{ secrets.AGENT_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          vibe -p "Execute one session per HANDOFF.md (your operating manual), AGENTS.md, and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Do not touch ROADMAP.md." \
-            --max-turns 80 \
+          vibe -p "Execute one session per HANDOFF.md (your operating manual), AGENTS.md, and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Commit everything, push the session branch, and open the draft PR as soon as the artifacts are written, before any optional polish. Do not touch ROADMAP.md." \
+            --max-turns 150 \
             --max-price 12.00 \
             --trust \
             --output text \
