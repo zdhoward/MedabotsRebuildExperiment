@@ -1,17 +1,14 @@
 # Daily autonomous session, driven by the Mistral "vibe" coding CLI
 # (PyPI: mistral-vibe, https://github.com/mistralai/mistral-vibe).
 #
-# Rollout: workflow_dispatch-only (manual) until runs are stable, then enable
-# the commented-out cron schedule below.
-#
 # Requires repository secret AGENT_API_KEY (Mistral API key, console.mistral.ai).
 
 name: Daily AI Dev Session
 
 on:
   workflow_dispatch:
-  # schedule:
-  #   - cron: "0 14 * * *"   # 10:00 AM America/Toronto
+  schedule:
+    - cron: "0 14 * * *"   # 10:00 AM America/Toronto
 
 concurrency:
   group: daily-agent
