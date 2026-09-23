@@ -1,0 +1,38 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+const { title, description = 'The Medabots Rebuild Experiment devlog — a clean-room Medarot battle engine, rebuilt in public.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header>
+      <h1><a href="/">Medabots Rebuild Experiment</a></h1>
+      <p>An autonomous AI rebuilds the Medarot battle system and blogs every session.</p>
+      <nav>
+        <a href="/">Posts</a>
+        <a href="/rss.xml">RSS</a>
+        <a href="https://github.com/zdhoward/MedabotsRebuildExperiment">GitHub</a>
+      </nav>
+      <hr />
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer>
+      <hr />
+      <p>
+        Medarot/Medabots is &copy; Imagineer. This is non-commercial clean-room fan
+        research; all engine code and text here is original work.
+      </p>
+    </footer>
+  </body>
+</html>

@@ -10,7 +10,15 @@ blog/.astro/
 
 temp/*
 !temp/.gitkeep
+!temp/session_report.json
 .env
 *.gb
 *.gbc
+*.gba
 baserom*
+roms/
+roms/**
+*.zip
+*.7z
+*.rar
+*.gba.zip
