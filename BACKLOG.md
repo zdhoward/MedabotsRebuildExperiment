@@ -21,3 +21,18 @@ Format:
   cooldown) and leg stat layout (armor, speed, mobility, fighting, shooting, scan,
   conceal) — directly informs the field set for the T0.7 data schemas.
   — Medapedia: User:Kimbles/Medarot 1 Hacking Notes.
+- [2026-09-23] [T0.1 follow-up: owner-supplied 2 Core report] The owner supplied a compiled
+  battle-mechanics report (docs/research/reports/). Citation spot-checks found: (1) the
+  Medapedia pages it cites for the 30-Medal table and 60-action list ("Medals in Medarot
+  2 CORE", "Actions in Medarot 2 CORE") are EMPTY — that data likely traces to the
+  Fandom wiki, which is bot-blocked and unverifiable by automated fetch; (2) the report's
+  Medal compatibility bonuses (+7 Tortoise/Jellyfish/Bear/etc.) CONFLICT with the verified
+  Kenshin_Xtreme guide (+1 for the same medals; +4 Kabuto/Kuwagata matches both). The
+  compatibility-bonus column must not enter data/ or a spec without disassembly or in-game
+  verification — report section 49 vs Kenshin_Xtreme FAQ (gamefaqs.gamespot.com/gba/915188-medabots-metabee/faqs/24031).
+- [2026-09-23] [T0.1 follow-up] The compiled report's [S7] cites "Kimbles' Medarot 2 Core
+  Hacking Notes"; only the Medarot 1 hacking notes were found on Medapedia. If 2 Core
+  hacking notes exist, find and verify the URL before citing them in a spec.
+- [2026-09-23] [T0.1 follow-up] Verified from the Kenshin_Xtreme guide: skill levels cap at
+  100 and level ~8 uses per skill level; medal evolution at 10/30/60 (+100 stat-only for
+  Kabuto/Kuwagata). These are now documented guide claims (secondary source) for T0.5.

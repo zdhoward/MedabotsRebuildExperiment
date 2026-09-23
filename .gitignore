@@ -14,4 +14,11 @@ temp/*
 .env
 *.gb
 *.gbc
+*.gba
 baserom*
+roms/
+roms/**
+*.zip
+*.7z
+*.rar
+*.gba.zip

@@ -61,6 +61,15 @@ Link-verified 2026-09-23 (session T0.1). Mark anything unverified as UNVERIFIED 
   English-language walkthrough covering robattle mechanics, leader/partner team order, and
   part categories in the official English terms. Secondary source for T0.2/T0.3.
 
+- **GameFAQs: Kenshin_Xtreme's Medabots RPG Walkthrough (v3.50, 2004)** —
+  https://gamefaqs.gamespot.com/gba/915188-medabots-metabee/faqs/24031
+  Detailed English GBA guide: battle tactics, attack types, terrain/leg-type table,
+  skill leveling (8 uses per skill level, max 100), medal evolution (10/30/60, +100 for
+  Kabuto/Kuwagata), the Aim attribute, and a full Medal FAQ with attributes, aims,
+  compatibility bonuses, and Medaforce costs. Link-verified 2026-09-23. Secondary source
+  for T0.2/T0.3/T0.5. NOTE: its compatibility values conflict with the compiled report's
+  Medal table (see BACKLOG.md).
+
 - **Medabots Discord (community research hub)** — join via the decomp projects below.
   Where Medapedia authors and disassembly contributors hang out. Ask-before-assert source;
   anything learned here must be reproduced from a citable source before it enters a spec.
@@ -82,6 +91,11 @@ Link-verified 2026-09-23 (session T0.1). Mark anything unverified as UNVERIFIED 
 
 - **Medarot Parts Collection GB: Medabots/medarot1-pc** — https://github.com/Medabots/medarot1-pc
   Parts Collection disassembly/translation. Useful for part data organization research (T0.7).
+
+- **Medabots Fandom wiki** — https://medabots.fandom.com/wiki/Medabots_(GBA)
+  English wiki with GBA medal/medaforce databases. Bot-blocked for automated fetching
+  ("Please contact the site owner for access") — link NOT verified by tooling; treat
+  content drawn from it as UNVERIFIED until checked manually or against another source.
 
 ## Reference games
 
