@@ -36,3 +36,21 @@ Format:
 - [2026-09-23] [T0.1 follow-up] Verified from the Kenshin_Xtreme guide: skill levels cap at
   100 and level ~8 uses per skill level; medal evolution at 10/30/60 (+100 stat-only for
   Kabuto/Kuwagata). These are now documented guide claims (secondary source) for T0.5.
+- [2026-09-23] [T0.2 battle-flow spec] Autocon's Rokusho guide (GameFAQs faqs/35357) is now
+  verified live and appended to sources.md. It documents the timer rules (40/30/20 s; time
+  counts only during movement toward/away from the active line) — but it EXPLICITLY leaves
+  the third-level timer tie-break unresolved ("I'm not sure, but I think..."). The engine
+  must not implement a third tie-break level until in-game or disassembly evidence exists.
+  — https://gamefaqs.gamespot.com/gba/915189-medabots-rokusho/faqs/35357
+- [2026-09-23] [T0.2 battle-flow spec] Version difference spotted on the Medapedia Battle
+  system page: in GB-era games a ranged attack whose pre-selected target was destroyed
+  mid-charge FAILS; Medarot DS/7 instead retarget. 2 CORE should follow the GB-era
+  behavior, but the exact 2 CORE outcome deserves one in-game confirmation before the
+  engine freezes it. — https://medarot.meowcorp.us/wiki/Battle_system
+- [2026-09-23] [T0.2 battle-flow spec] No indexed source publishes the Target/Aim
+  weighting algorithm (both Medapedia and Autocon confirm the bias exists, neither says how
+  candidates are scored). Prime candidate for a medarot1 disassembly cross-check when T0.4
+  starts; until then the engine needs a pluggable, explicitly-labeled approximation.
+- [2026-09-23] [T0.2 session friction] PROMPT.md §3 references scripts/run_telemetry.py,
+  which does not exist yet. Non-simulation sessions skip it gracefully (T0.1, T0.2 both
+  did). First simulation-related task will need it created — roadmap owner decision.

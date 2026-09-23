@@ -70,6 +70,14 @@ Link-verified 2026-09-23 (session T0.1). Mark anything unverified as UNVERIFIED 
   for T0.2/T0.3/T0.5. NOTE: its compatibility values conflict with the compiled report's
   Medal table (see BACKLOG.md).
 
+- **GameFAQs: Autocon's Medabots: Rokusho Guide and Walkthrough (v1.3, 2015)** —
+  https://gamefaqs.gamespot.com/gba/915189-medabots-rokusho/faqs/35357
+  Verified live 2026-09-23 (session T0.2). English guide to the Rokusho GBA release:
+  Robattle flow, Leader/Partner rule, CRG/RAD definitions, battle timer lengths
+  (40/30/20 s) and counting rules (movement only), timer-expiry tie-breaks,
+  Rotation/Auto behavior, command menu. Tier 3. Primary source for T0.2.
+  NOTE: it explicitly leaves the third-level timer tie-break unresolved.
+
 - **Medabots Discord (community research hub)** — join via the decomp projects below.
   Where Medapedia authors and disassembly contributors hang out. Ask-before-assert source;
   anything learned here must be reproduced from a citable source before it enters a spec.
