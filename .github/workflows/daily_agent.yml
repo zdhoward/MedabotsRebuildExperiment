@@ -50,7 +50,7 @@ jobs:
         run: |
           vibe -p "Execute one session per HANDOFF.md (your operating manual), AGENTS.md, and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Do not touch ROADMAP.md." \
             --max-turns 150 \
-            --max-price 8.00 \
+            --max-price 12.00 \
             --trust \
             --output text \
             --workdir .
@@ -61,10 +61,7 @@ jobs:
         run: |
           git fetch --prune origin
           CUTOFF=$(( $(date +%s) - 2700 ))
-          BR=$(git for-each-ref --sort=-committerdate \r
-                --format='%(refname:short) %(committerdate:unix)' \r
-                refs/remotes/origin/session/ \r
-                | awk -v c="$CUTOFF" '$2 > c {print $1; exit}')
+          BR=$(git for-each-ref --sort=-committerdate --format='%(refname:short) %(committerdate:unix)' refs/remotes/origin/session/ | awk -v c="$CUTOFF" '$2 > c {print $1; exit}')
           if [ -n "$BR" ]; then
             echo "Agent pushed session branch: $BR"
             echo "branch=$BR" >> "$GITHUB_OUTPUT"
@@ -101,8 +98,8 @@ jobs:
               echo "PR already open for $BR_NAME; nothing to do."
               exit 0
             fi
-            gh pr create --draft --title "Session $(date +%F)" \r
-              --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \r
+            gh pr create --draft --title "Session $(date +%F)" \
+              --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \
               --head "$BR_NAME"
             exit 0
           fi
@@ -115,9 +112,9 @@ jobs:
             echo "No changes produced; skipping PR."
             exit 0
           fi
-          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" \r
+          git -c user.name="devbot" -c user.email="bot@users.noreply.github.com" \
             commit -m "session: $(date +%F)"
           git push origin "$BR_NAME"
-          gh pr create --draft --title "Session $(date +%F)" \r
-              --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \r
-              --head "$BR_NAME"
+          gh pr create --draft --title "Session $(date +%F)" \
+            --body "Automated session run via daily_agent.yml. The daily run's publish gate must be green before merge." \
+            --head "$BR_NAME"
