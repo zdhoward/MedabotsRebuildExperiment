@@ -44,5 +44,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Blog post authenticity gate
-        run: python scripts/validate_post.py || echo "validate_post.py not implemented yet (pre-T1 tooling)"
+        run: python scripts/validate_post.py
