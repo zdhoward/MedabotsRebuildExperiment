@@ -23,6 +23,22 @@ jobs:
         run: pytest -q
         working-directory: engine
 
+  blog-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: blog/package-lock.json
+      - name: Install
+        run: npm ci
+        working-directory: blog
+      - name: Build blog (publish gate: content schema + static build)
+        run: npm run build
+        working-directory: blog
+
   validate-post:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
