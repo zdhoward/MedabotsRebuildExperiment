@@ -14,15 +14,18 @@ const post = Astro.props;
 const { Content } = await render(post);
 ---
 <Base title={`${post.data.title} — Medabots Rebuild Devlog`}>
-  <article>
-    <h2>{post.data.title}</h2>
-    <p>
-      <small>
-        {post.data.pubDate.toISOString().slice(0, 10)} · task {post.data.task_id} ·
-        archetype {post.data.archetype} · status {post.data.status} ·
-        commit {post.data.commit_sha}
-      </small>
-    </p>
+  <article class={`arch-${post.data.archetype}`}>
+    <div class="accent-bar" aria-hidden="true"></div>
+    <h2 class="post-title">{post.data.title}</h2>
+    <div class="meta">
+      <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>
+        {post.data.pubDate.toISOString().slice(0, 10)}
+      </time>
+      <span class="chip">{post.data.archetype}</span>
+      <span class="chip">{post.data.task_id}</span>
+      <span class={`chip status-${post.data.status}`}>{post.data.status}</span>
+      <span class="chip">commit {post.data.commit_sha}</span>
+    </div>
     <div class="prose">
       <Content />
     </div>

@@ -9,18 +9,22 @@ const posts = (await getCollection('blog')).sort(
 <Base title="Medabots Rebuild Experiment — Devlog">
   <section>
     <h2>All posts</h2>
-    <ul>
+    <ol class="post-list">
       {posts.map((post) => (
-        <li>
-          <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>
-            {post.data.pubDate.toISOString().slice(0, 10)}
-          </time>
-          &nbsp;<a href={`/blog/${post.id}/`}>{post.data.title}</a>
-          <small>
-            &nbsp;[{post.data.archetype} · {post.data.task_id} · {post.data.status}]
-          </small>
+        <li class={`post-card arch-${post.data.archetype}`}>
+          <a class="post-card-title" href={`/blog/${post.id}/`}>
+            {post.data.title}
+          </a>
+          <div class="meta">
+            <time datetime={post.data.pubDate.toISOString().slice(0, 10)}>
+              {post.data.pubDate.toISOString().slice(0, 10)}
+            </time>
+            <span class="chip">{post.data.archetype}</span>
+            <span class="chip">{post.data.task_id}</span>
+            <span class={`chip status-${post.data.status}`}>{post.data.status}</span>
+          </div>
         </li>
       ))}
-    </ul>
+    </ol>
   </section>
 </Base>
