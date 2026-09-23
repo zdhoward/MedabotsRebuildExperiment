@@ -27,6 +27,6 @@
   "seed": null,
   "telemetry": "skipped - task is not simulation-related; scripts/run_telemetry.py does not exist yet",
   "artifact_hashes": {
-    "docs/mechanics/parts-and-actions.md": "sha256:896b2c6"
+    "docs/mechanics/parts-and-actions.md": "sha256:9acbd02"
   }
 }
