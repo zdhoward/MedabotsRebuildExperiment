@@ -54,3 +54,30 @@ Format:
 - [2026-09-23] [T0.2 session friction] PROMPT.md §3 references scripts/run_telemetry.py,
   which does not exist yet. Non-simulation sessions skip it gracefully (T0.1, T0.2 both
   did). First simulation-related task will need it created — roadmap owner decision.
+- [2026-09-24] [T0.3 parts & actions spec] Medapedia Stats page (S-2) and Kenshin_Xtreme
+  guide (S-4) together enumerate **41 distinct action types** across **8 skill categories**
+  (Strike, Berserk, Shoot, Aim Shot, Defend, Heal, Support, Interrupt) and **24 attribute
+  types** for part compatibility. The action taxonomy is now complete for T0.3 acceptance.
+  — https://medarot.meowcorp.us/wiki/Stats, https://gamefaqs.gamespot.com/gba/915188-medabots-metabee/faqs/24031
+- [2026-09-24] [T0.3 parts & actions spec] Kenshin_Xtreme guide documents the only
+  verified damage formula in current sources: **Effective Berserk Power = Part Power + (Propulsion / 2)**.
+  This becomes a primary test oracle for T0.4. — S-4.
+- [2026-09-24] [T0.3 parts & actions spec] Head parts have **7 stats** (no CRG/RAD display),
+  Arm parts have **8 stats** (CRG, RAD present), Leg parts have **7 stats** including
+  terrain compatibility. The stat counts are now canonical per Medapedia Stats (S-2).
+- [2026-09-24] [T0.3 parts & actions spec] Medapedia Leg type page (S-3) lists **7 leg
+  types** (Bipedal, Multi-leg, Wheeled, Tank, Hover/Float, Flying, Aquatic) — complete list
+  for T0.6 terrain matrix work. — https://medarot.meowcorp.us/wiki/Leg_type
+- [2026-09-24] [T0.3 parts & actions spec] Several action types (Chain Reaction, Half
+  Block, Full Block, Counter, Cross Attack setup, AutoRecover, Status Clear, Trap Clear,
+  Boost Charge, Rapid Charge, No Escape, No Defense, Charge Drain, Ammo Drain, Force
+  Drain, Force Bind, Pushover) are documented ONLY by Kenshin_Xtreme (S-4). These need
+  cross-verification against Medarot 1 disassembly or Medapedia before entering data/
+  for T0.8. — proposed micro-task: verify Kenshin_Xtreme action list against medarot1.
+- [2026-09-24] [T0.3 parts & actions spec] **Open gap**: No source confirms whether Head
+  Uses can be restored mid-battle via Heal actions, or only between battles. Marked
+  UNKNOWN in spec; affects engine design for Heal skill implementation in T1.x.
+- [2026-09-24] [T0.3 parts & actions spec] **Open gap**: tiomasta's claim that crits are
+  deterministic (ROS vs Evasion+Defense) with a small random factor remains HYPOTHESIS
+  grade (methodology unstated). Carried forward from T0.1 BACKLOG note; still needs
+  disassembly or controlled in-game test to verify. — S-7.
