@@ -43,13 +43,17 @@ jobs:
           git config user.name "devbot"
           git config user.email "bot@users.noreply.github.com"
 
+      # Budget caps are guards, not verdicts: if the agent hits one after
+      # completing and pushing the session, the publish gate below decides
+      # whether the output is publishable. A run is judged by its content.
       - name: Run agent session
+        continue-on-error: true
         env:
           MISTRAL_API_KEY: ${{ secrets.AGENT_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           vibe -p "Execute one session per HANDOFF.md (your operating manual), AGENTS.md, and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Do not touch ROADMAP.md." \
-            --max-turns 150 \
+            --max-turns 80 \
             --max-price 12.00 \
             --trust \
             --output text \
@@ -76,10 +80,14 @@ jobs:
           if [ -n "$BR" ]; then
             git worktree add "$RUNNER_TEMP/session-branch" "$BR"
             cd "$RUNNER_TEMP/session-branch"
+            NEW_POSTS=$(git diff --name-only origin/main HEAD -- blog/src/content/blog/)
           elif [ -z "$(git status --porcelain)" ]; then
             echo "Agent pushed no branch and the workspace is clean; nothing was produced."
             exit 1
+          else
+            NEW_POSTS=$(git status --porcelain -- blog/src/content/blog/)
           fi
+          [ -n "$NEW_POSTS" ] || { echo "Session content includes no new devlog post; session did not complete."; exit 1; }
           [ -f temp/session_report.json ] || { echo "No session report in the session content; agent produced nothing."; exit 1; }
           python scripts/validate_post.py
           python -m pip install -e "engine[dev]"
