@@ -54,3 +54,24 @@ Format:
 - [2026-09-23] [T0.2 session friction] PROMPT.md §3 references scripts/run_telemetry.py,
   which does not exist yet. Non-simulation sessions skip it gracefully (T0.1, T0.2 both
   did). First simulation-related task will need it created — roadmap owner decision.
+- [2026-09-24] [T0.3 parts-actions spec] Kimbles' Medarot 1 Hacking Notes (Medapedia)
+  provide **16-byte part layouts** for both head/arm and legs, including the crucial
+  distinction: head/arm byte 0x07 = Uses (for heads) or Charge (for arms), byte 0x08 =
+  always 00 (heads) or Cooldown (arms). This confirms heads have finite uses while arms
+  are infinite. Same layout for 2 CORE needs disassembly verification.
+  — https://medarot.meowcorp.us/wiki/User:Kimbles/Medarot_1_Hacking_Notes
+- [2026-09-24] [T0.3 parts-actions spec] Kimbles documents **~40 distinct actions** in
+  Medarot 1 (hex 00-37 with gaps), with a 60-slot table. The owner report's claim of
+  "60 actions in 2 CORE" cannot be verified because Medapedia's "Actions in Medarot 2
+  CORE" page is EMPTY. The exact action count for 2 CORE remains UNKNOWN.
+  — https://medarot.meowcorp.us/wiki/User:Kimbles/Medarot_1_Hacking_Notes
+- [2026-09-24] [T0.3 parts-actions spec] Medapedia Stats page lists **11 skills** but
+  Kimbles' skill byte mapping (01-0F) shows duplicates: Strike at 01 and 03, Berserk at
+  02 and 04, Heal at 0A and 0B, Protect at 08 and 09, Support at 07/0C/0D. Whether 2 CORE
+  has a cleaner 1-to-1 skill→byte mapping is UNVERIFIED.
+  — https://medarot.meowcorp.us/wiki/Stats, https://medarot.meowcorp.us/wiki/User:Kimbles/Medarot_1_Hacking_Notes
+- [2026-09-24] [T0.3 parts-actions spec] Leg parts have **10 stats** in Medarot 1:
+  Attribute, Leg type, Armor, Speed, Mobility, Fighting (Melee), Shooting, Scan, Conceal,
+  plus anti-type flags at 0x0D/0x0E. Conceal stat is hidden in Medarot 1's stat screen
+  but visible in Medarot 2. This layout needs 2 CORE disassembly confirmation.
+  — https://medarot.meowcorp.us/wiki/User:Kimbles/Medarot_1_Hacking_Notes
