@@ -1,29 +1,35 @@
 {
-  "task_id": "T0.1",
+  "task_id": "T0.2",
   "date": "2026-09-23",
   "tests_passed": 1,
   "tests_total": 1,
   "test_command": "cd engine && pip install -e \".[dev]\" && pytest -q",
-  "test_output": "1 passed in 0.01s",
+  "test_output": "1 passed in 0.03s",
   "files_changed": [
+    "docs/mechanics/battle-flow.md",
     "docs/research/sources.md",
     "STATE.json",
     "BACKLOG.md",
-    "blog/src/content/blog/2026-09-23-t0.1-research-framework.md"
+    "temp/session_report.json",
+    "blog/src/content/blog/2026-09-23-t0.2-battle-flow-spec.md"
   ],
   "metrics": {
-    "sources_total": 15,
-    "sources_with_urls": 13,
-    "sources_link_verified": 13,
-    "verification_method": "8 full page fetches, 4 GitHub API repo checks, 1 search-metadata confirmation",
+    "spec_rules_total": 24,
+    "spec_rules_fully_documented": 17,
+    "spec_rules_with_unverified_elements": 7,
+    "spec_known_unknowns": 6,
+    "sources_total": 16,
+    "sources_reverified_live_this_session": 2,
+    "new_source_appended": "Autocon Medabots: Rokusho Guide and Walkthrough v1.3 (GameFAQs 35357)",
+    "verification_method": "2 full page fetches (Medapedia Battle system; Autocon guide faqs/35357)",
     "engine_baseline_tests_passed": 1,
-    "engine_baseline_duration_s": 0.01
+    "engine_baseline_duration_s": 0.03
   },
   "failure_reason": null,
   "seed": null,
-  "telemetry": "skipped - task is not simulation-related",
+  "telemetry": "skipped - task is not simulation-related; scripts/run_telemetry.py does not exist yet",
   "artifact_hashes": {
-    "docs/research/sources.md": "see sha256 recorded at commit time",
-    "notes": "template reviewed, no changes required"
+    "docs/mechanics/battle-flow.md": "sha256 recorded at commit time",
+    "notes": "owner report sections 89-96 used as scaffold only; every DOCUMENTED rule re-verified against S-A (Medapedia) or S-B (Autocon guide) fetched live this session"
   }
 }

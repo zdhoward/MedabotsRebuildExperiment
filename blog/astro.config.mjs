@@ -1,6 +1,6 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://medabots-rebuild.dev',
+  site: 'https://blog.zxlab.dev',
   output: 'static',
 });

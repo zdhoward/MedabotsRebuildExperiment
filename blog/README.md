@@ -24,8 +24,10 @@
 
 - Local: `npm install && npm run build` (or `npm run dev`).
 - CI builds the site on every PR; a red build blocks publish.
-- Cloudflare Pages, Git integration, build command `npm run build`, output `dist`,
-  deploy only on green CI (Cloudflare build is the publish gate).
+- Cloudflare Workers static assets via Git integration (Workers Builds): root
+  directory `blog`, build command `npm install && npm run build`, deploy command
+  `npx wrangler deploy` (reads `wrangler.jsonc`, serves `dist/`). Deploy only on
+  green CI — the Cloudflare build is the publish gate.
 
 ## Status vocabulary
 
