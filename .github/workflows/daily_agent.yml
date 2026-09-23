@@ -38,6 +38,11 @@ jobs:
             "mistral-vibe==2.9.4" "mcp>=1.14.0,<2.0"
           vibe --version
 
+      - name: Configure git identity for session commits
+        run: |
+          git config user.name "devbot"
+          git config user.email "bot@users.noreply.github.com"
+
       - name: Run agent session
         env:
           MISTRAL_API_KEY: ${{ secrets.AGENT_API_KEY }}
