@@ -65,7 +65,8 @@ commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work comm
 ```
 
 - Rotate archetypes: never repeat `STATE.json.last_post_archetype`.
-  Used so far: `research-notes` (T0.1), `experiment-log` (project intro).
+  Used so far: research-notes (T0.1), experiment-log (project intro),
+  specimen-spotlight (T0.2), research-notes (T0.3). Never consecutively.
 - `featured_image` optional; if used, the image must exist under
   `blog/src/assets/YYYY-MM-DD/`.
 - Cite ≥3 concrete numbers from session artifacts. Link every claim to its
@@ -86,9 +87,10 @@ commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work comm
 
 ## 6. Research state you inherit (2026-09-23)
 
-- **Done**: T0.1 research framework (15 sources, 13 URLs verified).
-- **Next**: T0.2 — battle flow & turn structure spec
-  (`docs/mechanics/_template.md` is the spec template).
+- **Done**: T0.1 research framework (15 sources, 13 URLs verified); T0.2 battle
+  flow & turn structure spec (`docs/mechanics/battle-flow.md`); T0.3 parts &
+  actions spec (`docs/mechanics/parts-and-actions.md`).
+- **Next**: the task named in `STATE.json` (`active_task_id` is authoritative).
 - **Known source conflicts / gaps** (see BACKLOG.md): Medapedia compatibility
   bonus +7 vs +1; Medapedia "Actions in Medarot 2 CORE" page is EMPTY;
   tiomasta crit-rate claims unverified; Kimbles byte-layout notes need URL.
@@ -104,13 +106,26 @@ commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work comm
 - **Blog**: `blog/` Astro 5 site. Build: `cd blog && npm ci && npm run build`.
   Output `dist/`. Schema-validated frontmatter (see §4).
 - **CI** (`.github/workflows/ci.yml`): test + blog-build + validate-post.
-  Green CI is the publish gate.
-- **Scheduler** (`.github/workflows/daily_agent.yml`): runs YOU via
-  `vibe -p ... --max-turns 60 --max-price 3.00 --trust --workdir .`.
-  Cron stays commented until the owner enables it after stable manual runs.
-- **Known gap**: `scripts/validate_post.py` is a soft-echo placeholder in CI.
-  When you get the chance, implement it: frontmatter metrics ⊆ session report
-  metrics, archetype differs from previous post, image paths resolve.
+  Runs on PRs from real credentials, pushes to main, and manual dispatch
+  (`gh workflow run ci.yml --ref <branch>`). PRs opened with the workflow's
+  own token do not trigger CI (GitHub rule) - the scheduler's gate covers those.
+- **Scheduler** (`.github/workflows/daily_agent.yml`): runs YOU daily via cron
+  (10:00 AM America/Toronto) or manual dispatch, with budget guards
+  `vibe -p ... --max-turns 150 --max-price 12.00 --trust --workdir .`.
+  After your session it runs the **publish gate** against the branch you
+  pushed: a new devlog post, `temp/session_report.json` committed,
+  `scripts/validate_post.py`, engine tests, and a blog build. Budget caps
+  are guards, not verdicts: if you hit one after pushing, the run is judged
+  on your pushed work - so push as soon as protocol steps 5-7 are done.
+  A failed gate fails the run loudly (the owner gets an email); nothing
+  publishes silently.
+- **Publishing**: merging a session PR triggers CI on main, then Cloudflare
+  Workers Builds deploys `blog/` to blog.zxlab.dev automatically.
+- `scripts/validate_post.py` is implemented and enforced: post metrics ⊆
+  report metrics with matching values, archetype rotation vs the previous
+  post, commit_sha exists in this repo, image paths resolve, `status: pass`
+  requires tests_passed >= 1. Frontmatter YAML keys are case-sensitive -
+  `task_id` all lowercase (one session was rejected for `Task_id:`).
 
 ## 8. Failure modes and honesty
 
@@ -161,6 +176,6 @@ honestly per §8 — a fail post is a valid outcome.
 Suggested launcher flags (validated recipe, see §7):
 
 ```
-vibe -p "<the prompt above>" --max-turns 60 --max-price 3.00 --trust --workdir <repo root>
+vibe -p "<the prompt above>" --max-turns 150 --max-price 12.00 --trust --workdir <repo root>
 ```
 

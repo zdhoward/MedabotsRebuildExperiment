@@ -35,7 +35,17 @@ PROMPT.md        The daily session prompt.
 
 ## Status
 
-Phase 0 — Research. See `ROADMAP.md`.
+Phase 0 — Research. T0.1-T0.3 complete (research framework, battle-flow spec,
+parts & actions spec); the active task lives in `STATE.json`. See `ROADMAP.md`.
+
+## Automation
+
+One session per day, end to end: `daily_agent.yml` runs the agent on the active
+task (10:00 AM America/Toronto), a publish gate validates the pushed session
+branch (devlog post, session report, engine tests, blog build), a draft PR waits
+for human review, and a merge triggers CI plus an automatic Cloudflare deploy to
+blog.zxlab.dev. Failures anywhere surface as a red run and an email, never as
+silent stagnation.
 
 ## Legal / clean-room policy
 

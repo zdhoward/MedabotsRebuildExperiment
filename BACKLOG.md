@@ -75,3 +75,17 @@ Format:
   plus anti-type flags at 0x0D/0x0E. Conceal stat is hidden in Medarot 1's stat screen
   but visible in Medarot 2. This layout needs 2 CORE disassembly confirmation.
   — https://medarot.meowcorp.us/wiki/User:Kimbles/Medarot_1_Hacking_Notes
+- [2026-09-23] [pipeline ops] Same-day reruns of daily_agent can collide on session
+  branch names (session/YYYY-MM-DD-<task-id>); the workflow's PR step no-ops if a PR
+  is already open, but a fresh agent push to the same branch stacks commits on the old
+  session. Proposed micro-task: suffix branch names on collision.
+  — .github/workflows/daily_agent.yml "Open session PR" step.
+- [2026-09-23] [pipeline ops] Session-branch discovery uses a 45-minute freshness
+  window on refs/remotes/origin/session/*; a run whose agent pushes nothing while a
+  <45-min-old session branch exists can gate the wrong branch.
+  — .github/workflows/daily_agent.yml "Discover pushed session branch" step.
+- [2026-09-23] [pipeline ops] PRs opened or pushed with the workflow GITHUB_TOKEN
+  never trigger ci.yml pull_request checks (GitHub design). The daily run's publish
+  gate substitutes; a manual `gh workflow run ci.yml --ref <branch>` re-validates any
+  session branch if needed.
+  — .github/workflows/ci.yml workflow_dispatch trigger.
