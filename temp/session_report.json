@@ -17,7 +17,7 @@
   "seed": 42,
   "artifacts": {
     "spec_file": "docs/mechanics/parts-and-actions.md",
-    "spec_sha": "4665bea",
+    "spec_sha": "4c2da02",
     "session_branch": "session/2026-09-24-T0.3"
   }
 }
