@@ -46,8 +46,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           vibe -p "Execute one session per HANDOFF.md (your operating manual), AGENTS.md, and PROMPT.md: read STATE.json, implement the single active task, run tests, write the devlog post per the content rules, update STATE.json, and prepare a session branch. Do not touch ROADMAP.md." \
-            --max-turns 60 \
-            --max-price 5.00 \
+            --max-turns 150 \
+            --max-price 8.00 \
             --trust \
             --output text \
             --workdir .

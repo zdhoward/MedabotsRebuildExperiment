@@ -1,6 +1,7 @@
 name: CI
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches: [main]
@@ -40,7 +41,7 @@ jobs:
         working-directory: blog
 
   validate-post:
-    if: github.event_name == 'pull_request'
+    if: github.event_name != 'push'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
