@@ -133,3 +133,34 @@ battle timer, leader-head defeat ends the Robattle. Cite sources per claim;
 mark the timer's exact frame behavior and the CPU's target weighting as
 UNKNOWN unless a source establishes them. The owner report §89–96 is a good
 scaffold, but verify before you cite.
+
+## 10. Bootstrap prompt (how a cold start should invoke you)
+
+Anyone launching you — the owner locally, or `daily_agent.yml` — should use
+a prompt equivalent to this:
+
+```
+You are the autonomous session agent for MedabotsRebuildExperiment.
+Read HANDOFF.md in full and follow it — it is your operating manual and it
+points to AGENTS.md, PROMPT.md, and docs/planning/content-rules.md, which
+also bind you.
+
+Get up to date first: run `git status` and `git log --oneline -10`; read
+STATE.json (active task), BACKLOG.md (open discoveries), and the most recent
+post in blog/src/content/blog/. If HANDOFF.md is missing from your checkout,
+stop and tell the owner PR #1 must be merged before sessions can run.
+
+Then execute EXACTLY ONE session per HANDOFF.md §3: the task in
+STATE.json.active_task_id. Minimal changes, tests green, session report,
+devlog post (archetype rotation per §4), STATE.json update, BACKLOG
+append, commit on session/YYYY-MM-DD-<task-id>, draft PR. Never push to
+main. Never edit ROADMAP.md. If you cannot finish, publish the failure
+honestly per §8 — a fail post is a valid outcome.
+```
+
+Suggested launcher flags (validated recipe, see §7):
+
+```
+vibe -p "<the prompt above>" --max-turns 60 --max-price 3.00 --trust --workdir <repo root>
+```
+
