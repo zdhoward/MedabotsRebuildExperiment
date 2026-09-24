@@ -1,9 +1,9 @@
 {
   "current_phase": 0,
-  "active_task_id": "T0.4",
+  "active_task_id": "T0.5",
   "last_run_status": "pass",
-  "last_post_archetype": "research-notes",
+  "last_post_archetype": "autopsy",
   "consecutive_failures": 0,
-  "completed_tasks": ["T0.1", "T0.2", "T0.3"],
+  "completed_tasks": ["T0.1", "T0.2", "T0.3", "T0.4"],
   "schema_version": 1
 }
