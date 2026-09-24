@@ -60,7 +60,9 @@ task_id: string          # e.g. T0.2
 archetype: enum          # autopsy | specimen-spotlight | research-notes | experiment-log
 status: enum             # pass | fail
 metrics: {k: v}          # numbers must match temp/session_report.json
-commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work commit
+commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your
+  FINAL work commit; record it after your last amend (a pre-amend sha
+  fails fresh-clone PR CI)
 ---
 ```
 
@@ -85,11 +87,12 @@ commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work comm
 - Any mechanic not backed by a source in `docs/research/sources.md` (or a
   new verified source you append) must be marked UNVERIFIED in specs.
 
-## 6. Research state you inherit (2026-09-23)
+## 6. Research state you inherit (2026-09-24)
 
 - **Done**: T0.1 research framework (15 sources, 13 URLs verified); T0.2 battle
   flow & turn structure spec (`docs/mechanics/battle-flow.md`); T0.3 parts &
-  actions spec (`docs/mechanics/parts-and-actions.md`).
+  actions spec (`docs/mechanics/parts-and-actions.md`); T0.4 damage &
+  success formulas spec (`docs/mechanics/damage-and-success.md`).
 - **Next**: the task named in `STATE.json` (`active_task_id` is authoritative).
 - **Known source conflicts / gaps** (see BACKLOG.md): Medapedia compatibility
   bonus +7 vs +1; Medapedia "Actions in Medarot 2 CORE" page is EMPTY;
@@ -119,13 +122,23 @@ commit_sha: regex        # /^[0-9a-f]{7,40}$/ — the REAL sha of your work comm
   on your pushed work - so push as soon as protocol steps 5-7 are done.
   A failed gate fails the run loudly (the owner gets an email); nothing
   publishes silently.
-- **Publishing**: merging a session PR triggers CI on main, then Cloudflare
-  Workers Builds deploys `blog/` to blog.zxlab.dev automatically.
+- **Publishing**: merging a session PR triggers CI on main; Cloudflare
+  Workers Builds then deploys `blog/` to blog.zxlab.dev. KNOWN QUIRK
+  (2026-09-24): merge commits did not trigger Workers Builds for T0.3 or
+  T0.4 — an empty follow-up commit on main re-triggers the deploy
+  (owner action; the agent never pushes to main). The `Workers Builds`
+  check-run on GitHub is unreliable — it can report failure or
+  nothing while the deploy succeeds; verify against blog.zxlab.dev.
 - `scripts/validate_post.py` is implemented and enforced: post metrics ⊆
   report metrics with matching values, archetype rotation vs the previous
   post, commit_sha exists in this repo, image paths resolve, `status: pass`
   requires tests_passed >= 1. Frontmatter YAML keys are case-sensitive -
   `task_id` all lowercase (one session was rejected for `Task_id:`).
+  Duplicate mapping keys are REJECTED (2026-09-24: PyYAML's silent
+  last-wins let a duplicated `formulas_documented` pass the gate while
+  Astro's js-yaml failed the blog build). `commit_sha` must be the final
+  pushed commit: a pre-amend sha exists only in the scheduler's workspace
+  and fails fresh-clone PR CI (T0.4 incident; same fix pattern as T0.3).
 
 ## 8. Failure modes and honesty
 
