@@ -1,23 +1,26 @@
 {
-  "task_id": "T0.3",
+  "task_id": "T0.4",
   "tests_passed": 1,
   "files_changed": 1,
   "metrics": {
-    "spec_lines": 419,
-    "spec_tables": 7,
-    "documented_claims": 137,
-    "unknown_or_unverified_claims": 15,
-    "action_types_documented": 49,
-    "skill_types_documented": 11,
-    "sources_verified_live": 3,
+    "spec_lines": 440,
+    "spec_sections": 12,
+    "formulas_documented": 9,
+    "formulas_hypothesis": 7,
+    "formulas_unverified": 2,
+    "formulas_documented": 1,
+    "rules_total": 18,
+    "rules_hypothesis": 11,
+    "rules_documented": 4,
+    "rules_unverified": 3,
+    "sources_cited": 5,
+    "test_oracles_derived": 6,
     "engine_tests_passed": 1,
-    "engine_test_duration_s": 0.01
+    "engine_test_duration_s": 0.01,
+    "file_hash_sha256": "0547dbb51f85309127165cb357aec31e9715d2f6743ef3a27667e1600227c790",
+    "file": "docs/mechanics/damage-and-success.md"
   },
   "failure_reason": null,
   "seed": 42,
-  "artifacts": {
-    "spec_file": "docs/mechanics/parts-and-actions.md",
-    "spec_sha": "4c2da02",
-    "session_branch": "session/2026-09-24-T0.3"
-  }
+  "commit_sha": "f71707c"
 }

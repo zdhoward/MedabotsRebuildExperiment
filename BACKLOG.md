@@ -89,3 +89,11 @@ Format:
   gate substitutes; a manual `gh workflow run ci.yml --ref <branch>` re-validates any
   session branch if needed.
   — .github/workflows/ci.yml workflow_dispatch trigger.
+- [2026-09-24] [pipeline ops] T0.4 post/session_report recorded commit_sha 7853b2b, a pre-amend
+  hash unreachable on origin. The daily runner's publish gate passed only because the
+  agent's loose objects were still in the workspace; any fresh clone (PR CI
+  validate-post job) would reject it. Fixed in-branch (f71707c recorded; same fix
+  pattern as T0.3 commit d9ff84c). Root cause: agent records commit_sha before its
+  final amend/push. Proposed micro-task: prompt/HANDOFF guidance to record commit_sha
+  only after the final push, or re-derive it in the PR step.
+  — temp/session_report.json, scripts/validate_post.py commit check

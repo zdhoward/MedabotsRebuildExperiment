@@ -2,6 +2,7 @@
 """Publish gate: validate the newest devlog post against session artifacts.
 
 Enforces the HANDOFF.md §4/§8 contract mechanically:
+  0. frontmatter parses cleanly (no duplicate mapping keys — js-yaml parity)
   1. frontmatter metrics are a subset of session_report metrics and match
   2. archetype differs from the previous post's archetype (rotation rule)
   3. commit_sha is a real commit in this repository
@@ -31,12 +32,25 @@ ASSET_ROOT = REPO / "blog" / "src" / "assets"
 REQUIRED = ("title", "pubDate", "task_id", "archetype", "status", "metrics", "commit_sha")
 
 
+class _UniqueKeyLoader(yaml.SafeLoader):
+    """SafeLoader that rejects duplicate mapping keys (js-yaml/Astro parity)."""
+
+    def construct_mapping(self, node, deep=False):
+        keys = set()
+        for key_node, _ in node.value:
+            key = self.construct_object(key_node, deep=deep)
+            if key in keys:
+                raise ValueError(f"duplicate mapping key: {key!r}")
+            keys.add(key)
+        return super().construct_mapping(node, deep)
+
+
 def fm(text: str) -> dict:
     m = re.match(r"^---\s*\n(.*?)\n---\s*\n", text, re.DOTALL)
     if not m:
         raise ValueError("no frontmatter block")
     if yaml is not None:
-        return yaml.safe_load(m.group(1))
+        return yaml.load(m.group(1), Loader=_UniqueKeyLoader)
     out: dict = {}
     for line in m.group(1).splitlines():
         if ":" in line and not line.startswith((" ", "\t")):
