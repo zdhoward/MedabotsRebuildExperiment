@@ -97,3 +97,11 @@ Format:
   final amend/push. Proposed micro-task: prompt/HANDOFF guidance to record commit_sha
   only after the final push, or re-derive it in the PR step.
   — temp/session_report.json, scripts/validate_post.py commit check
+- [2026-09-25] [T0.5 medals-medaforce spec] The compatibility bonus conflict
+  (Kenshin_Xtreme +1 vs compiled report +7) resurfaced during Medal spec authoring.
+  This now **blocks Phase 1**: T0.7 data schemas need the field type, and T0.8
+  seed dataset needs actual values. Medapedia Medals page confirms the existence
+  of compatibility bonuses but does not publish magnitudes. Prime candidate for
+  medarot1 disassembly verification (justified by Medapedia's "mostly unchanged
+  since Medarot 1" claim) — or controlled in-game measurement.
+  — S-M (existence confirmed), S-K (+1 claim), compiled report section 49 (+7 claim)
