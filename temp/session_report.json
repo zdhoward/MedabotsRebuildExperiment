@@ -1,26 +1,24 @@
 {
-  "task_id": "T0.4",
+  "task_id": "T0.5",
   "tests_passed": 1,
   "files_changed": 1,
   "metrics": {
-    "spec_lines": 440,
-    "spec_sections": 12,
-    "formulas_documented": 9,
-    "formulas_hypothesis": 7,
-    "formulas_unverified": 2,
-    "formulas_documented": 1,
-    "rules_total": 18,
-    "rules_hypothesis": 11,
-    "rules_documented": 4,
+    "spec_lines": 416,
+    "spec_sections": 11,
+    "spec_subsections": 19,
+    "rules_total": 21,
+    "rules_documented": 10,
+    "rules_hypothesis": 8,
     "rules_unverified": 3,
     "sources_cited": 5,
-    "test_oracles_derived": 6,
+    "sources_verified": 3,
+    "sources_unverified": 2,
     "engine_tests_passed": 1,
     "engine_test_duration_s": 0.01,
-    "file_hash_sha256": "0547dbb51f85309127165cb357aec31e9715d2f6743ef3a27667e1600227c790",
-    "file": "docs/mechanics/damage-and-success.md"
+    "file_hash_sha256": "7b05fdc315afc04f9c0ade5bbd527b4148dcfd0204950e5a753405c3f511041c",
+    "file": "docs/mechanics/medals-skill-levels-medaforce.md"
   },
   "failure_reason": null,
-  "seed": 42,
-  "commit_sha": "f71707c"
+  "seed": null,
+  "commit_sha": "809e075"
 }
